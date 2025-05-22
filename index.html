@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yakkety Yak Team Bio Template</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: #111827; /* Default text color for elements not directly on the starry background */
+      line-height: 1.5;
+    }
+    
+    /* Custom properties for brand colors */
+    :root {
+      --brand-blue: #1e3a6c;
+      --brand-coral: #ff6b57;
+      --brand-light-blue: #c6dff7;
+      --transition-standard: 0.3s ease;
+    }
+    
+    /* Layout */
+    .container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    /* Content wrapper for fixed-width sections (header, title area) */
+    .content-wrapper {
+      max-width: 56rem; /* Standard width for header and title section */
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 1.5rem; /* Horizontal padding for responsiveness within content-wrapper */
+    }
+    
+    /* Header */
+    header {
+      background-color: white;
+      padding: 1rem 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo {
+      color: var(--brand-blue);
+      font-weight: bold;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.5rem;
+      color: var(--brand-blue);
+    }
+    
+    /* Main section */
+    main {
+      flex-grow: 1;
+      padding-top: 1rem; /* Reduced top padding */
+      padding-bottom: 1.5rem; /* Padding at the bottom of main */
+    }
+    
+    /* Title */
+    .title-section {
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: fadeIn 1s ease;
+      color: white; /* Title text color against dark background */
+      padding-top: 1rem; /* Adjust padding to separate from header */
+    }
+    
+    .title-section h1 {
+      color: white; /* Ensure heading is white */
+      font-size: 2.25rem; /* Slightly larger heading for impact */
+      font-weight: bold;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Subtle shadow for readability */
+    }
+    
+    .title-divider {
+      height: 0.25rem;
+      width: 6rem;
+      margin: 0 auto;
+      background-color: var(--brand-coral);
+      border-radius: 9999px;
+      animation: expandWidth 0.8s ease-out;
+    }
+    
+    /* Main form content wrapper - for wider, popping out effect */
+    .form-main-section {
+        background-color: white; /* Ensures it stands out */
+        border-radius: 1rem; /* Slightly larger border-radius than cards */
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* More prominent shadow for the "pop" */
+        margin: 2rem auto 3rem auto; /* Top, Right/Left(auto for centering), Bottom, Left (auto) */
+        max-width: 72rem; /* Increased width */
+        width: calc(100% - 3rem); /* Ensures 1.5rem padding on left/right for smaller screens */
+        padding: 2.5rem; /* Internal padding for the whole form box */
+        z-index: 1; /* Ensure it's above the starry background */
+        position: relative; /* Needed for z-index to work against fixed background */
+    }
+
+    /* Animation specifically for the form-main-section (controlled by JS) */
+    .form-main-section.animate-float {
+        animation: float 3s ease-in-out forwards; /* 'forwards' ensures it stays at the end state */
+    }
+
+    /* Card styles (apply to cards both inside and outside form-main-section if any) */
+    .card {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      transition: transform var(--transition-standard), box-shadow var(--transition-standard);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUpFadeIn 0.6s ease-out forwards;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card:nth-child(2) { /* For cards inside form-main-section, animation delays will apply */
+      animation-delay: 0.2s;
+    }
+    
+    .card:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    
+    /* Intro text */
+    .intro-text {
+      color: var(--brand-blue);
+      font-size: 1.125rem;
+    }
+    
+    /* Section headers */
+    .section-header {
+      color: var(--brand-blue);
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .icon-circle {
+      background-color: var(--brand-coral);
+      color: white;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.75rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .section-header:hover .icon-circle {
+      transform: rotate(10deg) scale(1.1);
+    }
+    
+    /* Form elements */
+    .form-group {
+      margin-bottom: 1.5rem;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    
+    .form-group.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    @media (min-width: 768px) {
+      .form-row {
+        flex-direction: row;
+      }
+      
+      .form-row > div {
+        flex: 1;
+      }
+    }
+    
+    label {
+      display: block;
+      color: var(--brand-blue);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      transition: color 0.2s ease;
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    }
+    
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px rgba(30, 58, 108, 0.1);
+      transform: scale(1.01);
+    }
+    
+    input:hover, textarea:hover {
+      border-color: var(--brand-blue);
+    }
+    
+    .form-group:hover label {
+      color: var(--brand-coral);
+    }
+    
+    textarea {
+      min-height: 5rem;
+      resize: vertical;
+    }
+    
+    .helper-text {
+      color: #6b7280;
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Button */
+    .button-container {
+      text-align: center;
+      margin-top: 3rem;
+      margin-bottom: 2rem; /* Added more margin below the button */
+      opacity: 0;
+      animation: fadeIn 0.8s ease 0.6s forwards;
+    }
+    
+    .btn-submit {
+      background-color: var(--brand-blue);
+      color: white;
+      font-weight: bold;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-submit:hover {
+      background-color: #152a50;
+      transform: translateY(-2px);
+      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-submit:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.4);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    
+    .btn-submit:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+    
+    /* Button loading state */
+    .btn-submit.loading {
+      background-color: #4a5568;
+      cursor: not-allowed;
+      position: relative;
+    }
+    
+    .btn-submit.loading .btn-text {
+      visibility: hidden;
+    }
+    
+    .btn-submit.loading::before {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      left: 50%;
+      margin-top: -10px;
+      margin-left: -10px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      animation: spin 0.8s infinite linear;
+    }
+    
+    /* Progress indicator */
+    .progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: rgba(255, 255, 255, 0.2);
+      z-index: 20;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background-color: var(--brand-coral);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    
+    /* Starry Background (Now page-wide) */
+    .starry-background {
+      position: fixed; /* Covers the entire viewport */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* Allows clicks/interactions on elements behind it */
+      z-index: -1; /* Ensures it's behind all content */
+      background-color: var(--brand-blue); /* Dark background for stars */
+      overflow: hidden; /* Prevents potential scrollbars from stars */
+    }
+    
+    .star {
+      position: absolute;
+      background-color: white;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+    
+    /* Form completion animation */
+    .completion-confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 30;
+      display: none;
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      opacity: 0;
+    }
+    
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background-color: white;
+      color: var(--brand-blue);
+      border-left: 4px solid var(--brand-coral);
+      padding: 1rem 1.5rem;
+      border-radius: 0.375rem;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+      z-index: 20;
+    }
+    
+    .toast.show {
+      transform: translateX(0);
+    }
+    
+    /* Success/Error Message (for immediate feedback) */
+    .message {
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0.375rem;
+      text-align: center;
+      font-weight: 500;
+      display: none;
+    }
+    
+    .success {
+      background-color: #c6f6d5;
+      border: 1px solid #68d391;
+      color: #276749;
+    }
+    
+    .error {
+      background-color: #fed7d7;
+      border: 1px solid #fc8181;
+      color: #c53030;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: rgba(30, 58, 108, 0.85); /* Slightly transparent blue to see stars */
+      color: white;
+      padding: 1.5rem 0;
+      margin-top: 3rem;
+      text-align: center;
+      position: relative;
+      z-index: 2; /* Ensure footer is above the fixed starry background */
+    }
+    footer p {
+        font-size: 1.125rem; /* Slightly larger text */
+        font-weight: 500; /* Medium bold */
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* Subtle shadow for readability */
+    }
+
+    /* Submission Splash Page */
+    .submission-splash {
+        display: none; /* Hidden by default */
+        text-align: center;
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        margin: 2rem auto 3rem auto;
+        max-width: 40rem; /* A bit narrower than the form for a distinct look */
+        width: calc(100% - 3rem);
+        padding: 3rem;
+        z-index: 1;
+        position: relative;
+        color: var(--brand-blue);
+    }
+    .submission-splash h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: var(--brand-blue);
+    }
+    .submission-splash p {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+    }
+    .submission-splash .btn-splash {
+      background-color: var(--brand-coral);
+      color: white;
+      font-weight: bold;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .submission-splash .btn-splash:hover {
+      background-color: #e55a47; /* Darker coral on hover */
+      transform: translateY(-2px);
+      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes expandWidth {
+      from {
+        width: 0;
+      }
+      to {
+        width: 6rem;
+      }
+    }
+    
+    @keyframes slideUpFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 1;
+      }
+      20% {
+        transform: scale(25, 25);
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(40, 40);
+      }
+    }
+    
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+    
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Starry Background: Moved here to be page-wide -->
+  <div class="starry-background" id="starryBackground"></div>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="container">
+    <!-- Header - Logo removed as requested -->
+    <header>
+      <div class="content-wrapper">
+        <div class="header-content">
+          <!-- Logo removed for iframe integration -->
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Title Section and Messages - Wrapped in content-wrapper for fixed width -->
+      <div class="content-wrapper">
+        <div class="title-section">
+          <h1>Welcome to the Team!</h1>
+          <div class="title-divider"></div>
+        </div>
+        <!-- Success and Error Messages - Kept visible here as they are general page messages -->
+        <div id="successMessage" class="message success">
+          Your bio has been successfully submitted to the team! Welcome aboard!
+        </div>
+        <div id="errorMessage" class="message error">
+          There was an error submitting your bio. Please try again.
+        </div>
+      </div>
+
+      <!-- Main Form Section: For custom width and pop-out effect -->
+      <div class="form-main-section" id="formMainSection">
+        <!-- Intro Card (now inside the form-main-section) -->
+        <div class="card">
+          <p class="intro-text">
+            At Yakkety Yak, we're more than just a marketing agency. We're your full-service partner dedicated to telling your story. Help us tell yours by completing the bio form below!
+          </p>
+        </div>
+
+        <!-- Bio Form (now inside the form-main-section) -->
+        <form id="bioForm">
+          <!-- About You Section -->
+          <div class="card">
+            <h2 class="section-header">
+              <span class="icon-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              About You
+            </h2>
+
+            <div class="form-group">
+              <div class="form-row">
+                <div>
+                  <label for="name">Name</label>
+                  <input type="text" id="name" name="name" class="animate-input">
+                </div>
+                <div>
+                  <label for="nickname">Nickname (if any)</label>
+                  <input type="text" id="nickname" name="nickname" class="animate-input">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="pronouns">Preferred pronouns</label>
+              <input type="text" id="pronouns" name="pronouns" class="animate-input">
+            </div>
+
+            <div class="form-group">
+              <label for="bioText">Please write a 3-4 sentence bio on your past experience with a few personal details:</label>
+              <textarea id="bioText" name="bioText" rows="4" class="animate-input"></textarea>
+            </div>
+          </div>
+
+          <!-- Fast Facts Section -->
+          <div class="card">
+            <h2 class="section-header">
+              <span class="icon-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              Fast Facts
+            </h2>
+            <p class="helper-text">Feel free to skip any that you don't want to share / aren't relevant.</p>
+
+            <div class="form-group">
+              <label for="family">Any details about family or pets that you want to share?</label>
+              <textarea id="family" name="family" class="animate-input"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="hobbies">Any hobbies / interests?</label>
+              <textarea id="hobbies" name="hobbies" class="animate-input"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="inspiration">What are a few things that inspire you?</label>
+              <textarea id="inspiration" name="inspiration" class="animate-input"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="snacks">What food or fuel will be on standby at your remote workstation?</label>
+              <textarea id="snacks" name="snacks" class="animate-input"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="media">What media do you consume - What are your favorite TV Shows, Movies, Podcasts, etc?</label>
+              <textarea id="media" name="media" class="animate-input"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="uniqueFact">What is a little known, unique fact about you?</label>
+              <textarea id="uniqueFact" name="uniqueFact" class="animate-input"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="excitement">What are you most excited about as you join the Yakkety Yak team?</label>
+              <textarea id="excitement" name="excitement" class="animate-input"></textarea>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="button-container">
+            <button type="submit" class="btn-submit" id="submitButton">
+              <span class="btn-text">Submit Bio</span>
+            </button>
+          </div>
+        </form>
+      </div> <!-- END form-main-section -->
+
+      <!-- Submission Success Splash Page -->
+      <div class="submission-splash" id="submissionSplash">
+        <h2>Bio Submitted Successfully!</h2>
+        <p>Thank you for sharing your details with the Yakkety Yak team.</p>
+        <button type="button" class="btn-splash" id="submitAnotherButton">Submit Another Bio</button>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="content-wrapper">
+        <p>Thank you for joining the Yakkety Yak team!</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <div id="toastMessage"></div>
+  </div>
+
+  <!-- Confetti Container -->
+  <div class="completion-confetti" id="confetti"></div>
+
+  <script>
+    // ** IMPORTANT: Your deployed Google Apps Script Web App URL **
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxe46n98ENRpVfNybm1mJIOjYN8ux_rAHpTm5GSHzw1yFGYbQLMQAN0rb6XGus-qySTTg/exec'; 
+
+    // Initialize page elements
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get elements
+      const formMainSection = document.getElementById('formMainSection');
+      const bioForm = document.getElementById('bioForm');
+      const submissionSplash = document.getElementById('submissionSplash');
+      const submitAnotherButton = document.getElementById('submitAnotherButton');
+      // No need to get submitButton here, it's used in setupFormInteractions scope
+      const formGroups = document.querySelectorAll('.form-group');
+
+      // Initial animations and setup
+      initAnimations();
+      createStars(); // Create stars on the background
+      window.addEventListener('scroll', updateProgressBar);
+      updateProgressBar(); // Initial call for progress bar
+
+      // Set up form interactions
+      setupFormInteractions();
+
+      // Event listener for submitting another form
+      if (submitAnotherButton) {
+        submitAnotherButton.addEventListener('click', function() {
+          submissionSplash.style.display = 'none'; // Hide splash
+          formMainSection.style.display = 'block';  // Show form
+          bioForm.reset(); // Reset the form fields
+          initAnimations(); // Re-trigger initial animations for form groups
+          // Hide any previous general messages (success/error from the last submission)
+          const successMessageDiv = document.getElementById('successMessage');
+          const errorMessageDiv = document.getElementById('errorMessage');
+          if (successMessageDiv) successMessageDiv.style.display = 'none';
+          if (errorMessageDiv) errorMessageDiv.style.display = 'none';
+        });
+      }
+
+      function initAnimations() {
+        // Form main section float animation
+        if (formMainSection) {
+          formMainSection.classList.add('animate-float');
+          setTimeout(() => {
+              formMainSection.classList.remove('animate-float');
+              formMainSection.style.transform = 'translateY(0)'; // Ensure it settles
+          }, 3000); // Duration of the 'float' animation
+        }
+
+        // Form group visibility animation
+        formGroups.forEach((group) => { // Remove 'visible' class if it was already there
+            group.classList.remove('visible');
+        });
+        // Re-add visible class with delay for animation
+        setTimeout(() => {
+            formGroups.forEach((group, index) => {
+            setTimeout(() => {
+                group.classList.add('visible');
+            }, 100 * index);
+            });
+        }, 800);
+      }
+    });
+
+    // Create stars on the background
+    function createStars() {
+      const starryBackground = document.getElementById('starryBackground');
+      const numStars = 50;
+
+      for (let i = 0; i < numStars; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        
+        // Random position
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        
+        // Random size
+        const size = (Math.random() * 3) + 1;
+        
+        // Set styles
+        star.style.left = `${x}%`;
+        star.style.top = `${y}%`;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.opacity = Math.random() * 0.8 + 0.2;
+        
+        // Add twinkling animation
+        star.style.animation = `fadeIn ${(Math.random() * 3) + 2}s ease-in-out infinite alternate`;
+        star.style.animationDelay = `${Math.random() * 5}s`;
+        
+        starryBackground.appendChild(star);
+      }
+    }
+
+    // Update progress bar based on scroll position
+    function updateProgressBar() {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const totalScrollable = docHeight - windowHeight;
+      const progress = (scrollTop / totalScrollable) * 100;
+      
+      document.getElementById('progressBar').style.width = `${progress}%`;
+    }
+
+    // Setup form interactions
+    function setupFormInteractions() {
+      const inputs = document.querySelectorAll('input, textarea');
+      
+      inputs.forEach(input => {
+        // Focus effects
+        input.addEventListener('focus', () => {
+          input.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', () => {
+          input.parentElement.classList.remove('focused');
+          // Removed specific toast for individual field completion as requested
+        });
+        
+        // Input animation
+        input.addEventListener('input', (e) => {
+          if (e.target.value.length > 0) {
+            e.target.classList.add('has-content');
+          } else {
+            e.target.classList.remove('has-content');
+          }
+        });
+      });
+
+      // Form submission
+      document.getElementById('bioForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const submitButton = document.getElementById('submitButton');
+        const bioForm = document.getElementById('bioForm');
+        const formMainSection = document.getElementById('formMainSection');
+        const submissionSplash = document.getElementById('submissionSplash');
+        
+        submitButton.classList.add('loading'); // Set button to loading state
+        
+        // Hide any previous general success/error messages before submission attempt
+        const successMessageDiv = document.getElementById('successMessage');
+        const errorMessageDiv = document.getElementById('errorMessage');
+        if (successMessageDiv) successMessageDiv.style.display = 'none';
+        if (errorMessageDiv) errorMessageDiv.style.display = 'none';
+
+        // Get form data
+        const formData = new FormData(event.target);
+        const bioData = Object.fromEntries(formData.entries());
+        
+        try {
+          const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(bioData),
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            mode: 'cors'
+          });
+          
+          if (!response.ok) {
+            // Attempt to read error message from response if available
+            let errorText = `Server responded with status ${response.status}.`;
+            try {
+              const errorJson = await response.json();
+              if (errorJson && errorJson.message) {
+                errorText = errorJson.message;
+              } else if (errorJson) {
+                errorText = JSON.stringify(errorJson);
+              }
+            } catch (jsonError) {
+              // If response is not JSON, use the raw text
+              errorText = await response.text();
+            }
+            throw new Error(`Submission failed: ${errorText}`);
+          }
+          
+          const result = await response.json();
+          if (result.result === 'success') {
+            showConfetti(); // Show confetti
+            showToast("Success! Your bio has been submitted."); // Show success toast
+            
+            // Handle success: hide form, show splash
+            bioForm.reset(); // Reset the form fields
+            formMainSection.style.display = 'none'; // Hide the form container
+            submissionSplash.style.display = 'block'; // Show the splash page
+            
+            // Scroll to the splash page for better UX
+            submissionSplash.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            console.log('Bio submitted:', bioData);
+          } else {
+            // Handle script-level 'failure' if result.result is not 'success'
+            if (errorMessageDiv) {
+              errorMessageDiv.style.display = 'block';
+              errorMessageDiv.textContent = `Submission error: ${result.message || 'Unknown error from script.'}`;
+              errorMessageDiv.scrollIntoView({ behavior: 'smooth' });
+            }
+            console.error('Submission error (script reported failure):', result);
+          }
+        } catch (error) {
+          // Handle network or unhandled script errors
+          if (errorMessageDiv) {
+            errorMessageDiv.style.display = 'block';
+            errorMessageDiv.textContent = `Error during submission: ${error.message}`;
+            errorMessageDiv.scrollIntoView({ behavior: 'smooth' });
+          }
+          console.error('Catch-all submission error:', error);
+        } finally {
+          submitButton.classList.remove('loading'); // Always remove loading state
+        }
+      });
+    }
+
+    // Show toast notification
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      
+      toastMessage.textContent = message;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Create and animate confetti
+    function showConfetti() {
+      const confettiContainer = document.getElementById('confetti');
+      confettiContainer.style.display = 'block';
+      confettiContainer.innerHTML = ''; // Clear previous confetti
+      
+      const colors = ['#1e3a6c', '#ff6b57', '#c6dff7', '#ffffff'];
+      
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        
+        // Random position
+        const x = Math.random() * 100;
+        
+        // Random color
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Random shape
+        const shape = Math.random() > 0.5 ? 'circle' : 'square';
+        confetti.style.borderRadius = shape === 'circle' ? '50%' : '0';
+        
+        // Set styles
+        confetti.style.left = `${x}%`;
+        confetti.style.backgroundColor = color;
+        confetti.style.opacity = 1;
+        
+        // Set animation
+        const animationDuration = (Math.random() * 3) + 2;
+        confetti.style.animation = `confettiFall ${animationDuration}s ease-in forwards`;
+        confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+        
+        confettiContainer.appendChild(confetti);
+      }
+      
+      // Clean up confetti after animation completes
+      setTimeout(() => {
+        confettiContainer.style.display = 'none';
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
